@@ -1,0 +1,16 @@
+#V2
+databases;
+SHOW;
+DATABASES;
+USE DB logs
+USE DB logs;
+USE NS logs DB logs;
+USE NS logs_calendar DB logs_calendar;
+SELECT * FROM persons;
+SELECT * FROM person;
+SELECT * FROM person;\n
+DELETE person;\n
+INFO for table person;
+INFO for table labels;
+INFO for table abc;
+SHOW;
