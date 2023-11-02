@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fc-border-color: #eee;
+}
+
+table[role="grid"].fc-scrollgrid {
+}
+th[role="columnheader"].fc-col-header-cell.fc-day {
+  @apply py-2;
+}
