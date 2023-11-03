@@ -3,11 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --fc-border-color: #eee;
+  --fc-border-color: hsl(var(--b1));
+  --fc-today-bg-color: hsl(var(--sc));
+  --fc-highlight-color: hsl(var(--a));
 }
 
 table[role="grid"].fc-scrollgrid {
 }
+
 th[role="columnheader"].fc-col-header-cell.fc-day {
-  @apply py-2;
+  @apply py-2 uppercase text-xs font-normal text-center;
+}
+
+td[role="gridcell"].fc-daygrid-day {
+  @apply uppercase text-sm text-center;
+}
+
+td[role="gridcell"] .fc-daygrid-day-frame .fc-daygrid-day-top {
+  @apply flex justify-center;
 }

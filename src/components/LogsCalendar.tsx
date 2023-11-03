@@ -91,7 +91,7 @@ const Tooltip = forwardRef<
 >(function Tooltip({ children }, ref) {
   return (
     <div ref={ref as LegacyRef<HTMLDivElement>} className="absolute z-30">
-      <div className="bg-white rounded shadow">
+      <div className="">
         <>{children}</>
       </div>
     </div>
