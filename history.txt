@@ -14,3 +14,5 @@ INFO for table person;
 INFO for table labels;
 INFO for table abc;
 SHOW;
+use NS logs_calendar DB logs_calendar
+USE NS logs_calendar DB logs_calendar;

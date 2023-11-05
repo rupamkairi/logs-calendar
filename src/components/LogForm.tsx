@@ -1,19 +1,16 @@
+import { Icon } from "@iconify/react";
 import { Field, Form } from "houseform";
 import { Fragment } from "react";
-import { Icon } from "@iconify/react";
+import Editor from "./forms/Editor";
 import FilePicker from "./forms/FilePicker";
 import TimePicker from "./forms/TimePicker";
-import Editor from "./forms/Editor";
-import useSWR from "swr";
 
-// const fetcher = (url: string) => fetch(url).then((r) => r.json());
 type LogFormProps = {
   calendar: any;
 };
 
 export default function LogForm({ calendar }: LogFormProps) {
   // console.log(calendar);
-  // const { data: payload, error, isLoading } = useSWR("/api/activites", fetcher);
 
   async function saveLog(data: any) {
     // console.log(data, payload);

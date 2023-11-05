@@ -1,5 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DateTime, Duration } from "luxon";
+import db, { execute } from "@/utils/database/surrealdb";
+import { activities } from "@/utils/database/tables";
+
+export async function GET(req: NextRequest) {
+  try {
+    let result = (await execute(() => db.select(activities))) ?? [];
+
+    return NextResponse.json({
+      result,
+      // body,
+    });
+  } catch (error) {
+    return NextResponse.json({ error });
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,16 +37,20 @@ export async function POST(req: NextRequest) {
     if (body.start_datetime)
       start_datetime = DateTime.fromISO(body.end_datetime);
 
+    let data = {
+      title: body.title,
+      details: body.details,
+      attachments: body.attachments,
+      datetime: datetime.toISO(),
+      start_datetime: start_datetime?.toISO(),
+      end_datetime: end_datetime.toISO(),
+    };
+    let result = await execute(() => db.insert(activities, data));
+
     return NextResponse.json({
-      result: {
-        title: body.title,
-        details: body.details,
-        attachments: body.attachments,
-        datetime: datetime.toISO(),
-        start_datetime: start_datetime?.toISO(),
-        end_datetime: end_datetime.toISO(),
-      },
+      data,
       body,
+      result,
     });
   } catch (error) {
     return NextResponse.json({ error });

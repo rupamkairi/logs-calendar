@@ -1,4 +1,6 @@
 import Surreal from "surrealdb.js";
+import { database, namespace } from "./tables";
+// import Surreal from "surrealdb.node";
 
 const db = new Surreal();
 
@@ -8,10 +10,18 @@ export async function execute(fn: Function) {
     await db.signin({
       username: "root",
       password: "password",
+      namespace: namespace,
+      database: database,
     });
-    await db.use({ namespace: "logs_calendar", database: "logs_calendar" });
+
+    // const result = await db.use({
+    //   namespace: "logs_calendar",
+    //   database: "logs_calendar",
+    // });
+    // console.log(result);
 
     const result = await fn();
+    // console.log({ result });
 
     await db.close();
     return result;
