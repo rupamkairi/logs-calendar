@@ -4,8 +4,9 @@
 
 :root {
   --fc-border-color: hsl(var(--b1));
-  --fc-today-bg-color: hsl(var(--sc));
-  --fc-highlight-color: hsl(var(--a));
+  --fc-today-bg-color: hsl(var(--s));
+  --fc-highlight-color: hsl(var(--sc));
+  /* --fc-highlight-color: hsl(var(--a)); */
 }
 
 table[role="grid"].fc-scrollgrid {
@@ -19,6 +20,27 @@ td[role="gridcell"].fc-daygrid-day {
   @apply uppercase text-sm text-center;
 }
 
+td[role="gridcell"].fc-daygrid-day.fc-day-today {
+  @apply rounded-xl;
+  background: none;
+}
+td[role="gridcell"].fc-daygrid-day.fc-day-today {
+  @apply rounded-xl;
+  background: none;
+}
+td[role="gridcell"].fc-daygrid-day.fc-day-today
+  .fc-daygrid-day-frame
+  .fc-daygrid-day-top
+  a {
+  @apply w-[28px] shadow bg-[var(--fc-today-bg-color)] text-white shadow-[var(--fc-today-bg-color)] rounded-full;
+}
+
+td[role="gridcell"] .fc-daygrid-day-frame {
+}
 td[role="gridcell"] .fc-daygrid-day-frame .fc-daygrid-day-top {
   @apply flex justify-center;
+}
+td[role="gridcell"] .fc-daygrid-day-frame .fc-daygrid-day-bg .fc-highlight {
+  @apply flex justify-center rounded-xl;
+  background: color-mix(in srgb, var(--fc-highlight-color) 50%, transparent);
 }
