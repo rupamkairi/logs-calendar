@@ -1,6 +1,7 @@
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useMemo } from "react";
 import { Field } from "houseform";
 import { Icon } from "@iconify/react";
+import { labelToId } from "@/utils/stringify";
 
 type FilePickerProps = {
   label?: string;
@@ -11,16 +12,17 @@ type FilePickerProps = {
 };
 
 export default function FilePicker({ label, placeholder }: FilePickerProps) {
+  const id = useMemo(() => labelToId(label!), [label]);
   return (
-    <Field name={label!} initialValue={""}>
+    <Field name={id} initialValue={""}>
       {({ value, setValue, onBlur, errors }) => (
         <Fragment>
           <div className="flex items-center gap-2 mb-2">
-            <label htmlFor={label} className="">
+            <label htmlFor={id} className="">
               <Icon className="h-5 w-5" icon={"mdi:paperclip"} />
             </label>
             <input
-              id={label}
+              id={id}
               type="file"
               className="file-input file-input-ghost file-input-sm rounded w-full"
               value={value}

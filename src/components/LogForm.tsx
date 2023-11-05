@@ -4,8 +4,31 @@ import { Icon } from "@iconify/react";
 import FilePicker from "./forms/FilePicker";
 import TimePicker from "./forms/TimePicker";
 import Editor from "./forms/Editor";
+import useSWR from "swr";
 
-export default function LogForm() {
+// const fetcher = (url: string) => fetch(url).then((r) => r.json());
+type LogFormProps = {
+  calendar: any;
+};
+
+export default function LogForm({ calendar }: LogFormProps) {
+  // console.log(calendar);
+  // const { data: payload, error, isLoading } = useSWR("/api/activites", fetcher);
+
+  async function saveLog(data: any) {
+    // console.log(data, payload);
+    data._date = calendar.date;
+    data.date = calendar.dateStr;
+
+    const activities = await (
+      await fetch("/api/activities", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+    ).json();
+    console.log({ ...activities });
+  }
+
   return (
     <div className="card w-80 bg-base-100 rounded-xl shadow-xl shadow-base-300 overflow-hidden">
       <div className="bg-base-300 px-4 py-1">
@@ -18,12 +41,12 @@ export default function LogForm() {
       </div>
       <div className="card-body p-4">
         <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("submit");
+          onSubmit={(values) => {
+            // e.preventDefault();
+            saveLog(values);
           }}
         >
-          {({ errors }) => (
+          {({ errors, submit }) => (
             <Fragment>
               <Field name="title" initialValue={""}>
                 {({ value, setValue, onBlur, errors }) => (
@@ -49,7 +72,9 @@ export default function LogForm() {
               <Attachment />
               <StartTime />
               <FinishTime />
-              <button className="btn btn-primary">Save</button>
+              <button className="btn btn-primary" onClick={submit}>
+                Save
+              </button>
             </Fragment>
           )}
         </Form>
@@ -71,5 +96,5 @@ function StartTime() {
 }
 
 function FinishTime() {
-  return <TimePicker label="Finish time" finish={true} />;
+  return <TimePicker label="End time" end={true} />;
 }

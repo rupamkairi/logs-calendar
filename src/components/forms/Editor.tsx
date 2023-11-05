@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useMemo } from "react";
 import { Field } from "houseform";
 import { Icon } from "@iconify/react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
@@ -6,6 +6,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { labelToId } from "@/utils/stringify";
 
 type EditorProps = {
   label?: string;
@@ -18,6 +19,8 @@ type EditorProps = {
 const theme = {};
 
 export default function Editor({ label, placeholder }: EditorProps) {
+  const id = useMemo(() => labelToId(label!), [label]);
+
   const initialConfig = {
     namespace: "Editor",
     theme,
@@ -25,11 +28,11 @@ export default function Editor({ label, placeholder }: EditorProps) {
   };
 
   return (
-    <Field name={label!} initialValue={""}>
+    <Field name={id} initialValue={""}>
       {({ value, setValue, onBlur, errors }) => (
         <Fragment>
           <div className="flex items-center gap-2 mb-2">
-            <label htmlFor={label} className="">
+            <label htmlFor={id} className="">
               <Icon className="h-5 w-5" icon={"gg:details-more"} />
             </label>
             {/* <textarea
@@ -44,9 +47,12 @@ export default function Editor({ label, placeholder }: EditorProps) {
             <LexicalComposer initialConfig={initialConfig}>
               <PlainTextPlugin
                 contentEditable={
-                  <ContentEditable className="textarea px-4 input-sm w-full leading-tight" />
+                  <ContentEditable
+                    id={id}
+                    className="textarea px-4 input-sm w-full leading-tight"
+                  />
                 }
-                placeholder={<span></span>}
+                placeholder={<div>{}</div>}
                 ErrorBoundary={LexicalErrorBoundary}
               />
               <HistoryPlugin />

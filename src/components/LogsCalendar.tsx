@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   forwardRef,
   useRef,
+  useState,
 } from "react";
 import FullCalendar from "@fullcalendar/react";
 import luxonPlugin, {
@@ -19,6 +20,8 @@ import "@/styles/fc-overwrites.css";
 import LogForm from "./LogForm";
 
 export function LogsCalendar() {
+  const [fullCalendar, setFullCalendar] = useState<any>(null);
+
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   async function compP(reference: HTMLElement, tooltip: HTMLElement) {
@@ -31,7 +34,7 @@ export function LogsCalendar() {
         }),
       ],
     });
-    console.log({ x, y });
+    // console.log({ x, y });
     Object.assign(tooltip.style, {
       left: `${x}px`,
       top: `${y}px`,
@@ -58,6 +61,7 @@ export function LogsCalendar() {
         }}
         dateClick={(arg) => {
           // console.log("dateClick", arg);
+          setFullCalendar(arg);
           const reference = arg.dayEl,
             tooltip = tooltipRef.current as HTMLElement;
           compP(reference, tooltip);
@@ -70,7 +74,7 @@ export function LogsCalendar() {
         }}
       />
       <Tooltip ref={tooltipRef}>
-        <LogForm />
+        <LogForm calendar={fullCalendar} />
       </Tooltip>
     </div>
   );
