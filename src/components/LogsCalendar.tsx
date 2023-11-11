@@ -15,8 +15,10 @@ import {
 } from "react";
 import useSWR from "swr";
 import LogForm from "./LogForm";
-import { EventSourceInput } from "@fullcalendar/core/index.js";
+import { EventInput, EventSourceInput } from "@fullcalendar/core/index.js";
 import { useUIStore } from "@/store/store";
+import { activity } from "@/types/dto/activities.dto";
+import LogsExport from "./LogsExport";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -31,19 +33,22 @@ export function LogsCalendar() {
   useEffect(() => {
     if (!data) return;
 
-    const { result } = data;
-    // console.log(result[0]);
-    let _events: any[] = [];
-    result?.forEach((el: any) => {
-      let _event = {
+    const result = data.result as activity[];
+    console.log(result);
+    let _events: EventInput[] = [];
+    result?.forEach((el) => {
+      let _event: EventInput = {
         title: el.title,
         date: new Date(el.datetime),
-      };
-
-      console.log({
         start: new Date(el.start_datetime),
         end: new Date(el.end_datetime),
-      });
+        overlap: false,
+      };
+
+      // console.log({
+      //   start: new Date(el.start_datetime),
+      //   end: new Date(el.end_datetime),
+      // });
 
       _events.push(_event);
     });
@@ -71,20 +76,27 @@ export function LogsCalendar() {
   }
 
   return (
-    <div className="max-h-screen container mx-auto">
+    <div className="max-h-screen container mx-auto px-2">
+      <div>
+        <LogsExport />
+      </div>
       <FullCalendar
         plugins={[luxonPlugin, dayGridPlugin, interactionPlugin]}
+        headerToolbar={{
+          left: "title",
+          right: "prev,next today",
+        }}
+        // dayCellContent={RenderDayCellContent}
         eventContent={RenderEventContent}
         initialView="dayGridMonth"
-        // events={[
-        //   { title: "Event 1", date: new Date() },
-        //   { title: "Event 2", date: new Date(), display: "background" },
-        // ]}
-        events={events}
-        selectable={true}
+        eventOverlap={false}
+        slotEventOverlap={false}
+        selectOverlap={false}
         selectMirror={false}
         unselectAuto={false}
-        selectOverlap={true}
+        expandRows={false}
+        selectable={true}
+        events={events}
         selectAllow={(selectInfo) => {
           // console.log("selectAllow", selectInfo);
           return true;
@@ -111,17 +123,29 @@ export function LogsCalendar() {
         {showForm && <LogForm calendar={fullCalendar} />}
       </Tooltip>
 
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/* <pre className="text-sm">{JSON.stringify(data, null, 2)}</pre> */}
     </div>
+  );
+}
+
+function RenderDayCellContent(dayInfo: any) {
+  console.log(dayInfo);
+
+  return (
+    <Fragment>
+      <div></div>
+    </Fragment>
   );
 }
 
 function RenderEventContent(eventInfo: any) {
   return (
     <Fragment>
-      <div className="border">
-        {/* <div>{eventInfo.timeText}</div> */}
-        <div>, {eventInfo.event.title}</div>
+      <div className="rounded px-2 font-semibold bg-primary overflow-scroll">
+        <div className="flex items-center">
+          {/* <div>{eventInfo.timeText}</div> */}
+          <div className="text-primary-content"> {eventInfo.event.title}</div>
+        </div>
       </div>
     </Fragment>
   );

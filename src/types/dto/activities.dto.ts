@@ -1,6 +1,16 @@
 import { DateTime } from "luxon";
 import { Merge, Nullablelify, Optionalablify } from "../tsutils";
 
+export type activity = {
+  id: string;
+  datetime: string;
+  start_datetime: string;
+  end_datetime: string;
+  title: string;
+  details: string;
+  attachments: string;
+};
+
 export type postActivity = {
   date: string;
   _date: typeof DateTime;
@@ -13,6 +23,7 @@ export type postActivity = {
   attachments: string;
 };
 
+// export type insertActivity = Partial<activity>;
 export type insertActivity = {
   datetime: string;
   start_datetime: string;

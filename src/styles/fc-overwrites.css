@@ -8,6 +8,55 @@
   /* --fc-highlight-color: hsl(var(--s)); */
   /* --fc-highlight-color: hsl(var(--p)); */
   /* --fc-highlight-color: hsl(var(--a)); */
+  --fc-button-bg-color: hsl(var(--p));
+  --fc-button-border-color: hsl(var(--p));
+  --fc-button-text-color: hsl(var(--pc));
+  --fc-button-hover-bg-color: hsl(var(--pf));
+  --fc-button-hover-border-color: hsl(var(--pf));
+  --fc-button-hover-text-color: hsl(var(--pc));
+  --fc-button-active-bg-color: hsl(var(--pf));
+  --fc-button-active-border-color: hsl(var(--pf));
+  --fc-button-active-text-color: hsl(var(--pc));
+}
+
+.fc .fc-button,
+.fc .fc-button-primary,
+.fc .fc-button-secondary {
+  @apply border-none btn;
+}
+
+.fc .fc-button.fc-button-primary {
+  @apply btn-primary;
+}
+.fc .fc-button.fc-button-secondary {
+  @apply btn-secondary;
+}
+
+.fc .fc-button:focus,
+.fc .fc-button:active,
+.fc .fc-button:active:focus,
+.fc .fc-button:not(:disabled):active:focus,
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:active,
+.fc .fc-button-primary:active:focus,
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-secondary:focus,
+.fc .fc-button-secondary:active,
+.fc .fc-button-secondary:active:focus,
+.fc .fc-button-secondary:not(:disabled):active:focus {
+  @apply border-none shadow-none;
+}
+
+.fc-button:disabled {
+  @apply border-none btn-disabled;
+}
+
+.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk .fc-today-button {
+  @apply h-full sticky top-0 rounded-t-none font-semibold capitalize btn-secondary;
+}
+.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk .fc-prev-button,
+.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk .fc-next-button {
+  @apply h-full sticky top-0 rounded-t-none font-semibold capitalize;
 }
 
 table[role="grid"].fc-scrollgrid {
