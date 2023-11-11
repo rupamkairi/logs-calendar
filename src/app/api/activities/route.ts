@@ -1,11 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
-import { DateTime, Duration } from "luxon";
+import {
+  insertActivity,
+  mergedCreateActivity,
+  postActivity,
+} from "@/types/dto/activities.dto";
 import db, { execute } from "@/utils/database/surrealdb";
 import { activities } from "@/utils/database/tables";
+import { DateTime, Duration } from "luxon";
+import { NextRequest, NextResponse } from "next/server";
+import sample_activities from "@/../data/sample/activities.json";
 
 export async function GET(req: NextRequest) {
   try {
-    let result = (await execute(() => db.select(activities))) ?? [];
+    let result =
+      (await execute(() => db.select(activities))) ?? sample_activities.result;
 
     return NextResponse.json({
       result,
@@ -18,7 +25,8 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const payload: postActivity = await req.json();
+    let body = { ...payload } as mergedCreateActivity;
     // console.log(body);
 
     let date = DateTime.fromFormat(body.date, "yyyy-MM-dd");
@@ -37,13 +45,13 @@ export async function POST(req: NextRequest) {
     if (body.start_datetime)
       start_datetime = DateTime.fromISO(body.end_datetime);
 
-    let data = {
+    let data: insertActivity = {
       title: body.title,
       details: body.details,
       attachments: body.attachments,
-      datetime: datetime.toISO(),
-      start_datetime: start_datetime?.toISO(),
-      end_datetime: end_datetime.toISO(),
+      datetime: datetime.toISO()!,
+      start_datetime: start_datetime?.toISO()!,
+      end_datetime: end_datetime.toISO()!,
     };
     let result = await execute(() => db.insert(activities, data));
 

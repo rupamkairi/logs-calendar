@@ -16,10 +16,13 @@ import {
 import useSWR from "swr";
 import LogForm from "./LogForm";
 import { EventSourceInput } from "@fullcalendar/core/index.js";
+import { useUIStore } from "@/store/store";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export function LogsCalendar() {
+  const { showForm, toggleForm } = useUIStore();
+
   const { data, error, isLoading } = useSWR("/api/activities", fetcher);
 
   const [fullCalendar, setFullCalendar] = useState<any>(null);
@@ -30,7 +33,7 @@ export function LogsCalendar() {
 
     const { result } = data;
     // console.log(result[0]);
-    let _events = [];
+    let _events: any[] = [];
     result?.forEach((el: any) => {
       let _event = {
         title: el.title,
@@ -91,6 +94,7 @@ export function LogsCalendar() {
         }}
         dateClick={(arg) => {
           // console.log("dateClick", arg);
+          if (!showForm) toggleForm();
           setFullCalendar(arg);
           const reference = arg.dayEl,
             tooltip = tooltipRef.current as HTMLElement;
@@ -104,7 +108,7 @@ export function LogsCalendar() {
         }}
       />
       <Tooltip ref={tooltipRef}>
-        <LogForm calendar={fullCalendar} />
+        {showForm && <LogForm calendar={fullCalendar} />}
       </Tooltip>
 
       <pre>{JSON.stringify(data, null, 2)}</pre>

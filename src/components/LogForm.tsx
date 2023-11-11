@@ -4,23 +4,28 @@ import { Fragment } from "react";
 import Editor from "./forms/Editor";
 import FilePicker from "./forms/FilePicker";
 import TimePicker from "./forms/TimePicker";
+import { postActivity } from "@/types/dto/activities.dto";
+import { useUIStore } from "@/store/store";
 
 type LogFormProps = {
   calendar: any;
 };
 
 export default function LogForm({ calendar }: LogFormProps) {
+  const { toggleForm } = useUIStore();
+
   // console.log(calendar);
 
   async function saveLog(data: any) {
     // console.log(data, payload);
-    data._date = calendar.date;
+    data._date = new Date();
     data.date = calendar.dateStr;
 
+    let payload: postActivity = { ...data };
     const activities = await (
       await fetch("/api/activities", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
     ).json();
     console.log({ ...activities });
@@ -31,7 +36,12 @@ export default function LogForm({ calendar }: LogFormProps) {
       <div className="bg-base-300 px-4 py-1">
         <div className="flex justify-between items-center">
           <p className="text-sm">Log Form</p>
-          <button className="p-1 rounded-full">
+          <button
+            className="p-1 rounded-full"
+            onClick={() => {
+              toggleForm();
+            }}
+          >
             <Icon className="h-5 w-5" icon={"ic:sharp-close"} />
           </button>
         </div>
