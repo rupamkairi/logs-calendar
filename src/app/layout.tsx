@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import {
   /* Inter, Merriweather, Poppins, */ Space_Grotesk,
 } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 
 const space_grotesk = Space_Grotesk({
   weight: ["400", "700"],
