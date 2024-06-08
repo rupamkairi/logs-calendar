@@ -1,4 +1,4 @@
-export const namespace = "logs_calendar";
-export const database = "logs_calendar";
+export const namespace = "logs-calendar";
+export const database = "logs-calendar";
 
 export const activities = "activities";

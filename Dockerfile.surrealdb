@@ -1,8 +1,0 @@
-FROM surrealdb/surrealdb
-
-ENV USER=root
-ENV PASSWORD=password
-
-EXPOSE 8000
-
-ENTRYPOINT [ "/surreal", "start"]

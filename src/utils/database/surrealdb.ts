@@ -9,7 +9,7 @@ export async function execute(fn: Function) {
     await db.connect("http://127.0.0.1:8000/rpc");
     await db.signin({
       username: "root",
-      password: "password",
+      password: "root",
       namespace: namespace,
       database: database,
     });
